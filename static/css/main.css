@@ -49,7 +49,7 @@
 
 
   ul {
-    list-style: none;
+    list-style: square;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -460,6 +460,7 @@ ul.sub-menu {
   outline: none;
   box-shadow: none;
   height: 40px;
+
 }
 
 .form-control:hover, 

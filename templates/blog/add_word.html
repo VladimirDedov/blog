@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<section id="page-breadcrumb">
+    <div class="vertical-center sun">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <form method="post" action="{% url 'add_word' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for f in form %}
+                        <div class="form-group">
+                            <strong>{{f.label}}</strong> {{f}}
+                        </div>
+                        {% endfor%}
+                        <button type="submit">Добавить</button>
+                        <div class="form-group">
+                    <button type="submit" name="Submit" class="btn btn-submit" value="Добавить / Add"> Добавить / Add </button>
+                </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+</section>
+{% endblock %}

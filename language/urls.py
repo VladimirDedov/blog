@@ -7,5 +7,6 @@ urlpatterns = [
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
     path('resume/', resume, name='resume'),
-    path('distionary/<slug:word_slug>/', Detail_word.as_view, name='detail_word')
+    path('distionary/<slug:word_slug>/', DetailWord.as_view(), name='detail_word'),
+    path('add_word/', AddWord.as_view(), name='add_word'),
 ]

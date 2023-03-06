@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, CreateView
 from .models import *
+from .forms import AddWordForm
 
 main_menu = [
     {'title': 'Домашнаяя', 'url_name': 'index'},
@@ -9,6 +11,7 @@ main_menu = [
     {'title': 'Словарь', 'url_name': 'distionary'},
     {'title': 'Обо мне', 'url_name': 'about'},
     {'title': 'Контакты', 'url_name': 'contact'},
+    {'title': 'Слово', 'url_name': 'add_word'}
 ]
 
 
@@ -26,23 +29,35 @@ def blog(request):
 def distionary(request):
     """distionary of english worlds"""
     words = Distionary.objects.all()
-    context = {'menu': main_menu, 'flag': 'distionary', 'words':words}
+    context = {'menu': main_menu, 'flag': 'distionary', 'words': words}
     return render(request, 'blog/distionary.html', context=context)
 
 
-class Detail_word(DetailView):
+class DetailWord(DetailView):
     model = Distionary
     template_name = 'blog/detail_word.html'
     slug_url_kwarg = 'word_slug'
+    context_object_name = 'detail_word'
 
     def get_queryset(self):
-        return Distionary.objects.filter(slug=self.kwargs['word_slug'])
+        return Distionary.objects.filter(slug=self.kwargs['word_slug']).order_by('word_eng')
 
-# def detail_word(request, slug):
-#     words = Distionary.objects.all()
-#     context = {'menu': main_menu,
-#                'flag': 'distionary'}
-#     return render(request, 'blog/detail_word.html', context=context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        return context
+
+
+class AddWord(CreateView):
+    """Add word in distionary"""
+    form_class = AddWordForm
+    template_name = 'blog/add_word.html'
+    success_url = reverse_lazy('distionary') #расскоментировать позже. Перенаправления get_absolute_url из модели
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        return context
 
 
 def about(request):
@@ -58,3 +73,9 @@ def contact(request):
 
 def resume(reauest):
     return redirect('http://dvv-res.ru')
+
+# def detail_word(request, slug):
+#     words = Distionary.objects.all()
+#     context = {'menu': main_menu,
+#                'flag': 'distionary'}
+#     return render(request, 'blog/detail_word.html', context=context)
