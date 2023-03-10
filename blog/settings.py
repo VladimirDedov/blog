@@ -105,7 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'UTC'
 
@@ -130,5 +130,5 @@ STATIC_DIR= os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [#сПИСОК ИЗ каких дерикторий собирать статику
     STATIC_DIR,
 ]
-MEDIA_URL = 'media/'
-MEDIA_ROOT=os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'  # Указывает куда загружать медиафайлы
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Указываем директорию для пути

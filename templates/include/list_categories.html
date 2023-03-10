@@ -1,0 +1,17 @@
+<div class="col-md-3 col-sm-5">
+    <div class="sidebar blog-sidebar">
+        <div class="sidebar-item categories">
+            <h3>Категории</h3>
+            <ul class="nav navbar-stacked">
+                {% for cat in cats %}
+                {% if cat_selected %}
+                <li class="active"><a href="#">{{cat.category}}</a></li>
+                {% else%}
+                <li><a href="#">{{cat.category}}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>

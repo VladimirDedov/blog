@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Jome</title>
+    <title>{% block title %}
+        {% endblock%}</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/animate.min.css' %}" rel="stylesheet">
@@ -61,16 +62,16 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% for m in menu %}
                     {% if flag == m.url_name %}
-                        {% if m.url_name == 'resume' %}
-                        <li class="active"><a href="http://dvv-res.ru" target="_blank">{{m.title}}</a></li>
-                        {%else%}
-                        <li class="active"><a href="{% url m.url_name %}">{{m.title}}</a></li>
-                        {% endif%}
+                    {% if m.url_name == 'resume' %}
+                    <li class="active"><a href="http://dvv-res.ru" target="_blank">{{m.title}}</a></li>
+                    {%else%}
+                    <li class="active"><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endif%}
                     {% else %}
                     <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
                     {% endif %}
                     {% endfor %}
-<!--                    <li><a href="https://dvv-res.ru" target="_blank">Резюме</a></li>-->
+                    <!--                    <li><a href="https://dvv-res.ru" target="_blank">Резюме</a></li>-->
 
                 </ul>
             </div>
@@ -86,31 +87,6 @@
     </div>
 </header>
 
-<!--/#header-->
-
-<!--<section id="home-slider">-->
-<!--    <div class="container">-->
-<!--        <div class="main-slider">-->
-<!--            <div class="slide-text">-->
-<!--                <h1>We Are Creative Nerds</h1>-->
-<!--                <p>Boudin doner frankfurter pig. Cow shank bresaola pork loin tri-tip tongue venison pork belly meatloaf-->
-<!--                    short loin landjaeger biltong beef ribs shankle chicken andouille.</p>-->
-<!--                <a href="#" class="btn btn-common">SIGN UP</a>-->
-<!--            </div>-->
-<!--            <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house"-->
-<!--                 alt="slider image">-->
-<!--            <img src="{% static 'images/home/slider/slide1/circle1.png' %}" class="slider-circle1" alt="slider image">-->
-<!--            <img src="{% static 'images/home/slider/slide1/circle2.png' %}" class="slider-circle2" alt="slider image">-->
-<!--            <img src="{% static 'images/home/slider/slide1/cloud1.png' %}" class="slider-cloud1" alt="slider image">-->
-<!--            <img src="{% static 'images/home/slider/slide1/cloud2.png' %}" class="slider-cloud2" alt="slider image">-->
-<!--            <img src="{% static 'images/home/slider/slide1/cloud3.png' %}" class="slider-cloud3" alt="slider image">-->
-<!--            <img src="{% static 'images/home/slider/slide1/sun.png' %}" class="slider-sun" alt="slider image">-->
-<!--            <img src="{% static 'images/home/cycle.png' %}" class="slider-cycle' %}" alt="">-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="preloader"><i class="fa fa-sun-o fa-spin"></i></div>-->
-<!--</section>-->
-<!--/#home-slider-->
 {% block content %}
 {% endblock %}
 

@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}
+{{title.word_eng}}
+{% endblock title%}
 {% block content %}
-  <img src="{{detail_word.image.url}}">
+
 <section id="page-breadcrumb">
     <div class="vertical-center sun">
         <div class="container">
@@ -48,7 +51,10 @@
                     </div>
                 </div>
             </div>
-
+            {% if detail_word.image %}
+            <h2>Картинка для запоминания: </h2>
+            <img src="{{detail_word.image.url}}">
+            {% endif%}
         </div>
     </div><!--/#table-container-->
 

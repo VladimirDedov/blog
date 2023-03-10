@@ -1,35 +1,48 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView
 from .models import *
 from .forms import AddWordForm
 
 main_menu = [
-    {'title': 'Домашнаяя', 'url_name': 'index'},
+    {'title': 'Домашняя', 'url_name': 'index'},
     {'title': 'Резюме', 'url_name': 'resume'},
     {'title': 'Блог', 'url_name': 'blog'},
     {'title': 'Словарь', 'url_name': 'distionary'},
     {'title': 'Обо мне', 'url_name': 'about'},
     {'title': 'Контакты', 'url_name': 'contact'},
-    {'title': 'Слово', 'url_name': 'add_word'}
+    {'title': 'Слово', 'url_name': 'add_word'},
+{'title': 'Добавить пост', 'url_name': 'add_post'}
 ]
 
 
 def index(request):
     """Home page"""
-    context = {'menu': main_menu, 'flag': 'index'}
+    context = {'menu': main_menu, 'flag': 'index', 'title': 'Главная страница'}
     return render(request, 'blog/index.html', context=context)
 
 
 def blog(request):
-    context = {'menu': main_menu, 'flag': 'blog'}
+    blog = Blog.objects.all()[:4]
+    context = {'menu': main_menu, 'flag': 'blog', 'title': 'Блог', 'blog_list': blog}
     return render(request, 'blog/blog.html', context=context)
 
 
+class BlogDetail(DetailView):
+    model = Blog
+    template_name = 'blog/detail_blog'
+    context_object_name = 'blog'
+    slug_url_kwarg = 'slug'
+
+    def get_queryset(self):
+        return Blog.objects.filter(slug=self.kwargs['slug'])
+
+def add_post(request):
+    return HttpResponse("Add post")
 def distionary(request):
     """distionary of english worlds"""
     words = Distionary.objects.all()
-    context = {'menu': main_menu, 'flag': 'distionary', 'words': words}
+    context = {'menu': main_menu, 'flag': 'distionary', 'words': words, 'title': 'Словарь'}
     return render(request, 'blog/distionary.html', context=context)
 
 
@@ -45,6 +58,8 @@ class DetailWord(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
+        context['title'] = Distionary.objects.filter(slug=self.kwargs['word_slug'])[0]
+        print(context)
         return context
 
 
@@ -52,11 +67,12 @@ class AddWord(CreateView):
     """Add word in distionary"""
     form_class = AddWordForm
     template_name = 'blog/add_word.html'
-    success_url = reverse_lazy('distionary') #расскоментировать позже. Перенаправления get_absolute_url из модели
+    success_url = reverse_lazy('distionary')  # расскоментировать позже. Перенаправления get_absolute_url из модели
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
+        context['title'] = 'Добавить слово'
         return context
 
 

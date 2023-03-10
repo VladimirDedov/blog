@@ -13,14 +13,49 @@ class Distionary(models.Model):
     exemple_2_rus = models.TextField(blank=True, verbose_name='Пример_2_Рус')
     exemple_3_eng = models.TextField(blank=True, verbose_name='Пример_3_Анг')
     exemple_3_rus = models.TextField(blank=True, verbose_name='Пример_3_Рус')
-    image = models.ImageField(blank=True, upload_to='image/%y/%m/%d', verbose_name='Картинка')
-
-    def __str__(self):
-        return self.word_eng
+    image = models.ImageField(blank=True, upload_to='word/image/%y/%m/%d', verbose_name='Картинка')
 
     class META:
         verbose_name = 'Словарь'
         verbose_name_plural = 'Словари'
+        ordering = ['word_eng']
 
-    def get_absolut_url(self):
+    def __str__(self):
+        return self.word_eng
+
+    def get_absolute_url(self):
         return reverse('detail_word', kwargs={'word_slug': self.slug})
+
+
+class Category(models.Model):
+    """model for category of blog"""
+    category = models.CharField(max_length=255, verbose_name='Категория')
+    slug_category = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+
+    def __str__(self):
+        return self.category
+
+
+class Blog(models.Model):
+    """model for blog detail"""
+    title = models.CharField(max_length=255, verbose_name='Заголовок блога')
+    slug = models.SlugField(max_length=255, verbose_name='URL', unique=True, db_index=True)
+    content = models.TextField(verbose_name='Содержание')
+    date_add = models.DateField(verbose_name="Дата создания")
+    category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
+    image_1 = models.ImageField(blank=True, upload_to='blog/image/%y/%m/%d', verbose_name='Главная картинка')
+    image_2 = models.ImageField(blank=True, upload_to='blog/image/%y/%m/%d', verbose_name='Картинка 2')
+    image_3 = models.ImageField(blank=True, upload_to='blog/image/%y/%m/%d', verbose_name='Картинка 3')
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('blog_detail', kwargs={'slug': self.slug})
+
+
+class Comments(models.Model):
+    """model for comments of user"""
+    name_user = models.CharField(max_length=255, verbose_name='Имя пользователя')
+    content = models.TextField(verbose_name='Комментария')
+    blog = models.ForeignKey('Blog', on_delete=models.PROTECT, verbose_name='Блог')
