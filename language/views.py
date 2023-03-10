@@ -23,7 +23,7 @@ def index(request):
 
 
 def blog(request):
-    blog = Blog.objects.all()[:4]
+    blog = Blog.objects.all().order_by('-date_add')[:4]
     context = {'menu': main_menu, 'flag': 'blog', 'title': 'Блог', 'blog_list': blog}
     return render(request, 'blog/blog.html', context=context)
 

@@ -38,7 +38,7 @@
                             <div class="post-content overflow">
                                 <h2 class="post-title bold"><a href="#">{{blog.title}}</a></h2>
                                 <h4 class="date">Опубликовано: {{blog.date_add}}</h4>
-                                <p>{{blog.content}}</p>
+                                <p>{{blog.content | safe}}</p>
                                 <div class="post-bottom overflow">
                                     <ul class="nav navbar-nav post-nav">
                                         <li><a href="#"><i class="fa fa-tag"></i>Creative</a></li>

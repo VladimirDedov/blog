@@ -56,6 +56,11 @@ class Blog(models.Model):
     def get_absolute_url(self):
         return reverse('blog_detail', kwargs={'slug': self.slug})
 
+    class META:
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+
+
 
 class Comments(models.Model):
     """model for comments of user"""

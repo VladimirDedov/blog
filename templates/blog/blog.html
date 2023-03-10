@@ -42,7 +42,7 @@
                             <div class="post-content overflow">
 
                                 <h2 class="post-title bold"><a href="{{blog.get_absolute_url }}">{{blog.title}}</a></h2>
-                                <p>{{blog.content|linebreaks|truncatewords:50}}</p>
+                                <p>{{blog.content|safe|linebreaks|truncatewords:50}}</p>
                                 <h4 class="date">Опубликовано: {{blog.date_add}}</h4>
                                 <p><a href="{{blog.get_absolute_url }}" class="read-more">Читать пост</a></p>
 
