@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView, CreateView, ListView
 from .models import *
 from .forms import AddWordForm
 
@@ -12,7 +12,7 @@ main_menu = [
     {'title': 'Обо мне', 'url_name': 'about'},
     {'title': 'Контакты', 'url_name': 'contact'},
     {'title': 'Слово', 'url_name': 'add_word'},
-{'title': 'Добавить пост', 'url_name': 'add_post'}
+    {'title': 'Добавить пост', 'url_name': 'add_post'}
 ]
 
 
@@ -29,16 +29,44 @@ def blog(request):
 
 
 class BlogDetail(DetailView):
+    """shoe the detail of the selected blog"""
     model = Blog
-    template_name = 'blog/detail_blog'
+    template_name = 'blog/detail_blog.html'
     context_object_name = 'blog'
     slug_url_kwarg = 'slug'
 
     def get_queryset(self):
         return Blog.objects.filter(slug=self.kwargs['slug'])
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        context['title'] = 'Почитать'
+        context['cat_selected'] = Blog.objects.get(slug=self.kwargs['slug'])
+        return context
+
+
+class ShowCategory(ListView):
+    """show sorted list of detail blogs"""
+    model = Blog
+    template_name = 'blog/blog.html'
+    context_object_name = 'blog_list'
+
+    def get_queryset(self):
+        return Blog.objects.filter(category__slug_category=self.kwargs['slug_category'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        context['title'] = 'Почитать'
+        context['cat_selected'] = Category.objects.get(slug_category=self.kwargs['slug_category'])
+        return context
+
+
 def add_post(request):
     return HttpResponse("Add post")
+
+
 def distionary(request):
     """distionary of english worlds"""
     words = Distionary.objects.all()
@@ -47,6 +75,7 @@ def distionary(request):
 
 
 class DetailWord(DetailView):
+    """show the details of the selected word"""
     model = Distionary
     template_name = 'blog/detail_word.html'
     slug_url_kwarg = 'word_slug'

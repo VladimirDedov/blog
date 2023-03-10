@@ -35,6 +35,9 @@ class Category(models.Model):
     def __str__(self):
         return self.category
 
+    def get_absolute_url(self):
+        return reverse('category', kwargs={'slug_category': self.slug_category})
+
 
 class Blog(models.Model):
     """model for blog detail"""

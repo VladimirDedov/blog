@@ -62,13 +62,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% for m in menu %}
                     {% if flag == m.url_name %}
-                    {% if m.url_name == 'resume' %}
-                    <li class="active"><a href="http://dvv-res.ru" target="_blank">{{m.title}}</a></li>
-                    {%else%}
-                    <li class="active"><a href="{% url m.url_name %}">{{m.title}}</a></li>
-                    {% endif%}
-                    {% else %}
-                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                        {% if m.url_name == 'resume' %}
+                        <li class="active"><a href="http://dvv-res.ru" target="_blank">{{m.title}}</a></li>
+                        {%else%}
+                        <li class="active"><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                        {% endif%}
+                        {% else %}
+                        <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
                     {% endif %}
                     {% endfor %}
                     <!--                    <li><a href="https://dvv-res.ru" target="_blank">Резюме</a></li>-->

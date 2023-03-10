@@ -13,7 +13,8 @@ urlpatterns = [
     path('resume/', resume, name='resume'),
     path('distionary/<slug:word_slug>/', DetailWord.as_view(), name='detail_word'),
     path('add_word/', AddWord.as_view(), name='add_word'),
-    path('add_post', add_post, name='add_post')
+    path('add_post/', add_post, name='add_post'),
+    path('category/<slug:slug_category>/', ShowCategory.as_view(), name='category')
 ]
 
 if settings.DEBUG:
