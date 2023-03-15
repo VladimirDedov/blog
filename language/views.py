@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, ListView
 from .models import *
-from .forms import AddWordForm, AddPostForm
+from .forms import AddWordForm, AddPostForm, BlogLoginForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth import logout
 
 main_menu = [
     {'title': 'Домашняя', 'url_name': 'index'},
@@ -30,6 +32,7 @@ class ShowBlog(ListView):
 
     def get_queryset(self):
         return Blog.objects.filter(is_published=True).order_by('-date_add')[:4]
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
@@ -101,7 +104,6 @@ class DetailWord(DetailView):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
         context['title'] = Distionary.objects.filter(slug=self.kwargs['word_slug'])[0]
-        print(context)
         return context
 
 
@@ -115,6 +117,7 @@ class AddWord(CreateView):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
         context['title'] = 'Добавить слово'
+        context['flag'] = 'add_word'
         return context
 
 
@@ -124,12 +127,28 @@ class AddPost(CreateView):
     template_name = 'blog/add_post.html'
     success_url = reverse_lazy('blog')
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
         context['title'] = 'Добавить пост'
+        context['flag'] = 'add_post'
         return context
+
+
+class BlogLoginView(LoginView):
+    """class for authenfication"""
+    form_class = BlogLoginForm
+    template_name = 'blog/login.html'
+
+    def get_success_url(self):
+        return reverse_lazy('add_word')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        context['title'] = 'Авторизация'
+        return context
+
 
 def about(request):
     """About me page"""
@@ -145,6 +164,9 @@ def contact(request):
 def resume(reauest):
     return redirect('http://dvv-res.ru')
 
+def logout_user(request):
+    logout(request)
+    return redirect('login')
 # def detail_word(request, slug):
 #     words = Distionary.objects.all()
 #     context = {'menu': main_menu,

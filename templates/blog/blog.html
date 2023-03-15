@@ -12,7 +12,7 @@
                 <div class="action">
                     <div class="col-sm-12">
                         <h1 class="title">Hello! Добро пожаловать на мой блог.</h1>
-                        <p>Обо всем и ни о чем.</p>
+                        <p><a href="{%url 'add_post'%}">Добавить пост.</a> </p>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,6 @@
                         </div>
                     </div>
                     {% endfor %}
-
                 </div>
                 <div class="blog-pagination">
                     <ul class="pagination">
@@ -69,13 +68,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-3 col-sm-5">
-                <div class="sidebar blog-sidebar">
-                    <div class="sidebar-item categories">
-                        {% get_categories cat_selected=cat_selected.id %}
-                    </div>
-                </div>
-            </div>
+            {% get_categories cat_selected=cat_selected.id %}
         </div>
     </div>
 </section>

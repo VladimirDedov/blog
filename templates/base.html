@@ -36,8 +36,12 @@
             <div class="col-sm-12 overflow">
                 <div class="social-icons pull-right">
                     <ul class="nav nav-pills">
-                        <li><a href="">Войти</li>
-                        <li><a href=""> Регистрация</a></li>
+                        {% if not request.user.is_authenticated %}
+                            <li><a href="{% url 'login' %}">Войти</li>
+                        {%else%}
+                            <li>Вы вошли как {{user.username}}</li>
+                            <li><a href="{% url 'log_out' %}">Выйти</li>
+                        {%endif%}
                     </ul>
                 </div>
             </div>

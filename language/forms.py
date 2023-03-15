@@ -1,6 +1,9 @@
 from django import forms
 from .models import *
 from ckeditor.widgets import CKEditorWidget
+from django.contrib.auth.forms import AuthenticationForm#Встроенный  класс авторизации
+from django.contrib.auth.models import User
+
 
 
 class AddWordForm(forms.ModelForm):
@@ -37,4 +40,11 @@ class AddPostForm(forms.ModelForm):
             'slug': forms.Textarea(attrs={'rows': 1, 'class': "form-control"}),
             'date_add': forms.SelectDateWidget(),
         }
+
+class BlogLoginForm(AuthenticationForm):
+    username = forms.CharField(label='Логин', widget=forms.TextInput(attrs={'rows': 1, 'class': "form-control"}))
+    password = forms.CharField(label='Пароль', widget=forms.PasswordInput(attrs={'rows': 1, 'class': "form-control"}))
+    field_order = ['username', 'password']
+
+
 

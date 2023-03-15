@@ -11,7 +11,12 @@
                 <h1>Блог - словарь</h1>
                 <p>Данный сайт является местом, где ведется блог разработки и местом, где добавляются вновь изученные
                     английские слова.</p>
-                <a href="#" class="btn btn-common">Вход для меня</a>
+                {% if not request.user.is_authenticated %}
+                            <a href="{% url 'login' %}" class="btn btn-common">Вход для меня</a>
+                        {%else%}
+                            <a href="{% url 'log_out' %}" class="btn btn-common">Может пора выйти?</a>
+                        {%endif%}
+
             </div>
             <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house"
                  alt="slider image">
