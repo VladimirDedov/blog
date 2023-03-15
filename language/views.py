@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, ListView
 from .models import *
-from .forms import AddWordForm
+from .forms import AddWordForm, AddPostForm
 
 main_menu = [
     {'title': 'Домашняя', 'url_name': 'index'},
@@ -22,10 +22,26 @@ def index(request):
     return render(request, 'blog/index.html', context=context)
 
 
-def blog(request):
-    blog = Blog.objects.all().order_by('-date_add')[:4]
-    context = {'menu': main_menu, 'flag': 'blog', 'title': 'Блог', 'blog_list': blog}
-    return render(request, 'blog/blog.html', context=context)
+class ShowBlog(ListView):
+    model = Blog
+    paginate_by = 5
+    template_name = 'blog/blog.html'
+    context_object_name = 'blog_list'
+
+    def get_queryset(self):
+        return Blog.objects.filter(is_published=True).order_by('-date_add')[:4]
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        context['title'] = 'Блог'
+        context['flag'] = 'blog'
+        return context
+
+
+# def blog(request):
+#     blog = Blog.objects.all().order_by('-date_add')[:4]
+#     context = {'menu': main_menu, 'flag': 'blog', 'title': 'Блог', 'blog_list': blog}
+#     return render(request, 'blog/blog.html', context=context)
 
 
 class BlogDetail(DetailView):
@@ -48,6 +64,7 @@ class BlogDetail(DetailView):
 
 class ShowCategory(ListView):
     """show sorted list of detail blogs"""
+    paginate_by = 2
     model = Blog
     template_name = 'blog/blog.html'
     context_object_name = 'blog_list'
@@ -58,13 +75,9 @@ class ShowCategory(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['menu'] = main_menu
-        context['title'] = 'Почитать'
+        context['title'] = Category.objects.get(slug_category=self.kwargs['slug_category'])
         context['cat_selected'] = Category.objects.get(slug_category=self.kwargs['slug_category'])
         return context
-
-
-def add_post(request):
-    return HttpResponse("Add post")
 
 
 def distionary(request):
@@ -96,7 +109,7 @@ class AddWord(CreateView):
     """Add word in distionary"""
     form_class = AddWordForm
     template_name = 'blog/add_word.html'
-    success_url = reverse_lazy('distionary')  # расскоментировать позже. Перенаправления get_absolute_url из модели
+    success_url = reverse_lazy('detail_word')  # расскоментировать позже. Перенаправления get_absolute_url из модели
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -104,6 +117,19 @@ class AddWord(CreateView):
         context['title'] = 'Добавить слово'
         return context
 
+
+class AddPost(CreateView):
+    """add post in blog"""
+    form_class = AddPostForm
+    template_name = 'blog/add_post.html'
+    success_url = reverse_lazy('blog')
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = main_menu
+        context['title'] = 'Добавить пост'
+        return context
 
 def about(request):
     """About me page"""

@@ -1,11 +1,11 @@
 from django.contrib import admin
 from .models import *
 from .forms import *
-from ckeditor.widgets import CKEditorWidget
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 
 class BlogAdminForm(forms.ModelForm):
+    """form for CKEditor"""
     content = forms.CharField(widget=CKEditorUploadingWidget(), label='Описание')
 
     class Meta:
@@ -37,3 +37,8 @@ class AdminCategory(admin.ModelAdmin):
 @admin.register(Comments)
 class AdminComments(admin.ModelAdmin):
     list_display = ('name_user', 'content')
+
+
+@admin.register(Testimonial)
+class AdminTestimonial(admin.ModelAdmin):
+    list_display = ('testimonial',)
