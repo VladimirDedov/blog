@@ -2,29 +2,25 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, CreateView, ListView
 from .models import *
+from .utils import *
 from .forms import AddWordForm, AddPostForm, BlogLoginForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import logout
 
-main_menu = [
-    {'title': 'Домашняя', 'url_name': 'index'},
-    {'title': 'Резюме', 'url_name': 'resume'},
-    {'title': 'Блог', 'url_name': 'blog'},
-    {'title': 'Словарь', 'url_name': 'distionary'},
-    {'title': 'Обо мне', 'url_name': 'about'},
-    {'title': 'Контакты', 'url_name': 'contact'},
-    {'title': 'Слово', 'url_name': 'add_word'},
-    {'title': 'Добавить пост', 'url_name': 'add_post'}
-]
+
+class Index(DataMixin, ListView):
+    model = Blog
+    template_name = 'blog/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Главная страница', flag='index')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
 
 
-def index(request):
-    """Home page"""
-    context = {'menu': main_menu, 'flag': 'index', 'title': 'Главная страница'}
-    return render(request, 'blog/index.html', context=context)
-
-
-class ShowBlog(ListView):
+class ShowBlog(DataMixin, ListView):
+    """show list blog"""
     model = Blog
     template_name = 'blog/blog.html'
     context_object_name = 'blog_list'
@@ -35,19 +31,12 @@ class ShowBlog(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = main_menu
-        context['title'] = 'Блог'
-        context['flag'] = 'blog'
+        c_def = self.get_user_context(title='Блог', flag='blog')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
-# def blog(request):
-#     blog = Blog.objects.all().order_by('-date_add')[:4]
-#     context = {'menu': main_menu, 'flag': 'blog', 'title': 'Блог', 'blog_list': blog}
-#     return render(request, 'blog/blog.html', context=context)
-
-
-class BlogDetail(DetailView):
+class BlogDetail(DataMixin, DetailView):
     """shoe the detail of the selected blog"""
     model = Blog
     template_name = 'blog/detail_blog.html'
@@ -59,14 +48,12 @@ class BlogDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = main_menu
-        context['title'] = 'Почитать'
-        context['cat_selected'] = Blog.objects.get(slug=self.kwargs['slug'])
+        c_def = self.get_user_context(title='Почитать', cat_selected=Blog.objects.get(slug=self.kwargs['slug']))
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
-
-class ShowCategory(ListView):
+class ShowCategory(DataMixin, ListView):
     """show sorted list of detail blogs"""
     paginate_by = 2
     model = Blog
@@ -78,20 +65,26 @@ class ShowCategory(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = main_menu
-        context['title'] = Category.objects.get(slug_category=self.kwargs['slug_category'])
-        context['cat_selected'] = Category.objects.get(slug_category=self.kwargs['slug_category'])
+        title = Category.objects.get(slug_category=self.kwargs['slug_category'])
+        c_def = self.get_user_context(title=title, cat_selected=title)
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
-def distionary(request):
-    """distionary of english worlds"""
-    words = Distionary.objects.all()
-    context = {'menu': main_menu, 'flag': 'distionary', 'words': words, 'title': 'Словарь'}
-    return render(request, 'blog/distionary.html', context=context)
+class Distyonary(DataMixin, ListView):
+    """distyonary of english worlds"""
+    model = Distionary
+    template_name = 'blog/distionary.html'
+    context_object_name = 'words'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Словарь', flag='distionary')
+        context = dict(list(context.items()) + list(c_def.items()))
+        return context
 
 
-class DetailWord(DetailView):
+class DetailWord(DataMixin, DetailView):
     """show the details of the selected word"""
     model = Distionary
     template_name = 'blog/detail_word.html'
@@ -103,12 +96,12 @@ class DetailWord(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = main_menu
-        context['title'] = Distionary.objects.filter(slug=self.kwargs['word_slug'])[0]
+        c_def = self.get_user_context(title=Distionary.objects.filter(slug=self.kwargs['word_slug'])[0])
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
-class AddWord(CreateView):
+class AddWord(DataMixin,CreateView):
     """Add word in distionary"""
     form_class = AddWordForm
     template_name = 'blog/add_word.html'
@@ -116,13 +109,13 @@ class AddWord(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = main_menu
-        context['title'] = 'Добавить слово'
-        context['flag'] = 'add_word'
+        c_def = self.get_user_context(title='Добавить слово', flag='add_word')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
-class AddPost(CreateView):
+
+class AddPost(DataMixin, CreateView):
     """add post in blog"""
     form_class = AddPostForm
     template_name = 'blog/add_post.html'
@@ -130,9 +123,8 @@ class AddPost(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = main_menu
-        context['title'] = 'Добавить пост'
-        context['flag'] = 'add_post'
+        c_def = self.get_user_context(title='Добавить пост', flag='add_post')
+        context = dict(list(context.items()) + list(c_def.items()))
         return context
 
 
@@ -165,11 +157,7 @@ def contact(request):
 def resume(reauest):
     return redirect('http://dvv-res.ru')
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
-# def detail_word(request, slug):
-#     words = Distionary.objects.all()
-#     context = {'menu': main_menu,
-#                'flag': 'distionary'}
-#     return render(request, 'blog/detail_word.html', context=context)

@@ -4,10 +4,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', index, name='index'),
+    path('', Index.as_view(), name='index'),
     path('blog/', ShowBlog.as_view(), name='blog'),
     path('blog/<slug:slug>/', BlogDetail.as_view(), name='blog_detail'),
-    path('distionary/', distionary, name='distionary'),
+    path('distionary/', Distyonary.as_view(), name='distionary'),
     path('distionary/<slug:word_slug>/', DetailWord.as_view(), name='detail_word'),
     path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
