@@ -21,10 +21,10 @@ class AdminDistionary(admin.ModelAdmin):
 
 @admin.register(Blog)
 class AdminBlog(admin.ModelAdmin):
-    list_display = ('id', 'title', 'slug', 'date_add')
+    list_display = ('id', 'title', 'slug', 'date_add','is_published', 'content')
     prepopulated_fields = {'slug': ('title',)}
     list_display_links = ('title', 'slug')
-    list_editable = ('date_add',)
+    list_editable = ('date_add', 'is_published')
     form = BlogAdminForm
 
 

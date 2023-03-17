@@ -26,12 +26,12 @@ def index(request):
 
 class ShowBlog(ListView):
     model = Blog
-    paginate_by = 5
     template_name = 'blog/blog.html'
     context_object_name = 'blog_list'
 
     def get_queryset(self):
-        return Blog.objects.filter(is_published=True).order_by('-date_add')[:4]
+        queries = Blog.objects.filter(is_published=True).order_by('-date_add')[:4]
+        return queries
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -63,6 +63,7 @@ class BlogDetail(DetailView):
         context['title'] = 'Почитать'
         context['cat_selected'] = Blog.objects.get(slug=self.kwargs['slug'])
         return context
+
 
 
 class ShowCategory(ListView):

@@ -12,7 +12,7 @@
                 <div class="action">
                     <div class="col-sm-12">
                         <h1 class="title">Hello! Добро пожаловать на мой блог.</h1>
-                        <p><a href="{%url 'add_post'%}">Добавить пост.</a> </p>
+                        <p><a href="{%url 'add_post'%}">Добавить пост.</a></p>
                     </div>
                 </div>
             </div>
@@ -30,11 +30,11 @@
                     <div class="col-sm-12 col-md-12">
                         <div class="single-blog single-column">
                             <div class="post-thumb">
+                                {% if blog.image_1 %}
                                 <a href="{{blog.get_absolute_url }}">
-                                    {% if blog.image_1 %}
                                     <img src="{{blog.image_1.url}}"
-                                                                         class="img-responsive" alt=""></a>
-                                    {% endif %}
+                                         class="img-responsive" alt=""></a>
+                                {% endif %}
                                 <div class="post-overlay">
                                     <span class="uppercase"><a href="#">{{blog.date_add.day}} <br><small>{{blog.date_add.month}}</small></a></span>
                                 </div>
@@ -42,7 +42,9 @@
                             <div class="post-content overflow">
 
                                 <h2 class="post-title bold"><a href="{{blog.get_absolute_url }}">{{blog.title}}</a></h2>
-                                <p>{{blog.content|safe|linebreaks|truncatewords:50}}</p>
+                                {% autoescape off %}
+                                <p>{{blog.content|linebreaks|truncatewords:50}}</p>
+                                {% endautoescape %}
                                 <h4 class="date">Опубликовано: {{blog.date_add}}</h4>
                                 <p><a href="{{blog.get_absolute_url }}" class="read-more">Читать пост</a></p>
 
@@ -68,9 +70,9 @@
                     </ul>
                 </div>
             </div>
+
             {% get_categories cat_selected=cat_selected.id %}
-        </div>
-    </div>
+
 </section>
 <!--/#blog-->
 {% endblock %}

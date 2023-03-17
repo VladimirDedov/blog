@@ -5,8 +5,6 @@
 {{title}}
 {% endblock %}
 {% block content %}
-
-
 <section id="page-breadcrumb">
     <div class="vertical-center sun">
         <div class="container">
@@ -30,7 +28,9 @@
                     <div class="col-md-12 col-sm-12">
                         <div class="single-blog blog-details two-column">
                             <div class="post-thumb">
+                                {% if blog.image_1 %}
                                 <a href="#"><img src="{{blog.image_1.url}}" class="img-responsive" alt=""></a>
+                                {% endif %}
                                 <div class="post-overlay">
                                     <span class="uppercase"><a href="#">14 <br><small>Feb</small></a></span>
                                 </div>
