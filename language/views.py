@@ -24,6 +24,7 @@ class ShowBlog(DataMixin, ListView):
     model = Blog
     template_name = 'blog/blog.html'
     context_object_name = 'blog_list'
+    paginate_by = 2
 
     def get_queryset(self):
         queries = Blog.objects.filter(is_published=True).order_by('-date_add')[:4]
@@ -105,7 +106,7 @@ class AddWord(DataMixin,CreateView):
     """Add word in distionary"""
     form_class = AddWordForm
     template_name = 'blog/add_word.html'
-    success_url = reverse_lazy('detail_word')  # расскоментировать позже. Перенаправления get_absolute_url из модели
+    success_url = reverse_lazy('distionary')  # расскоментировать позже. Перенаправления get_absolute_url из модели
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
