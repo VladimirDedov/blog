@@ -11,6 +11,11 @@ from django.contrib.auth import logout
 class Index(DataMixin, ListView):
     model = Blog
     template_name = 'blog/index.html'
+    context_object_name = 'blog'
+
+    def get_queryset(self):
+        count = Blog.objects.all()
+        return count[1]
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

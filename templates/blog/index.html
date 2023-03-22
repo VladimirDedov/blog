@@ -12,10 +12,10 @@
                 <p>Данный сайт является местом, где ведется блог разработки и местом, где добавляются вновь изученные
                     английские слова.</p>
                 {% if not request.user.is_authenticated %}
-                            <a href="{% url 'login' %}" class="btn btn-common">Вход для меня</a>
-                        {%else%}
-                            <a href="{% url 'log_out' %}" class="btn btn-common">Может пора выйти?</a>
-                        {%endif%}
+                <a href="{% url 'login' %}" class="btn btn-common">Вход для меня</a>
+                {%else%}
+                <a href="{% url 'log_out' %}" class="btn btn-common">Может пора выйти?</a>
+                {%endif%}
 
             </div>
             <img src="{% static 'images/home/slider/slide1/house.png' %}" class="img-responsive slider-house"
@@ -39,9 +39,11 @@
                     <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="300ms">
                         <img src="{% static 'images/home/icon1.png' %}" alt="">
                     </div>
-                    <h2>Открыть блог</h2>
-                    <p>Ground round tenderloin flank shank ribeye. Hamkevin meatball swine. Cow shankle beef sirloin
-                        chicken ground round.</p>
+
+                    <h2><a href="{% url 'blog'%}"> Открыть блог</a></h2>
+                    {% autoescape off %}
+                    <p>{{blog.content|linebreaks|truncatewords:15}}</p>
+                    {% endautoescape %}
                 </div>
             </div>
             <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
