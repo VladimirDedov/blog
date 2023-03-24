@@ -42,7 +42,7 @@
 
                     <h2><a href="{% url 'blog'%}"> Открыть блог</a></h2>
                     {% autoescape off %}
-                    <p>{{blog.content|linebreaks|truncatewords:15}}</p>
+                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>
                     {% endautoescape %}
                 </div>
             </div>
@@ -51,9 +51,10 @@
                     <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="600ms">
                         <img src="{% static 'images/home/icon2.png' %}" alt="">
                     </div>
-                    <h2>Superior Typography</h2>
-                    <p>Hamburger ribeye drumstick turkey, strip steak sausage ground round shank pastrami beef brisket
-                        pancetta venison.</p>
+                    <h2><a href="{% url 'distionary'%}"> Открыть словарь</a></h2>
+                    {% autoescape off %}
+                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>
+                    {% endautoescape %}
                 </div>
             </div>
             <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="900ms">
@@ -61,9 +62,10 @@
                     <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="900ms">
                         <img src="{% static 'images/home/icon3.png' %}" alt="">
                     </div>
-                    <h2>Swift Page Builder</h2>
-                    <p>Venison tongue, salami corned beef ball tip meatloaf bacon. Fatback pork belly bresaola
-                        tenderloin bone pork kevin shankle.</p>
+                    <h2><a href="dvv-res.ru"> Почитать про меня</a></h2>
+                    {% autoescape off %}
+                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>
+                    {% endautoescape %}
                 </div>
             </div>
         </div>

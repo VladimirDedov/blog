@@ -14,8 +14,8 @@ class Index(DataMixin, ListView):
     context_object_name = 'blog'
 
     def get_queryset(self):
-        count = Blog.objects.all()
-        return count[1]
+        count = Blog.objects.all().last()
+        return count
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -77,7 +77,7 @@ class ShowCategory(DataMixin, ListView):
         return context
 
 
-class Distyonary(DataMixin, ListView):
+class Distionary(DataMixin, ListView):
     """distyonary of english worlds"""
     model = Distionary
     template_name = 'blog/distionary.html'
@@ -166,4 +166,4 @@ def resume(reauest):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')
+    return redirect('index')
