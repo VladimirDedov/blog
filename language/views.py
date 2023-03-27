@@ -30,7 +30,7 @@ class ShowBlog(DataMixin, ListView):
     model = Blog
     template_name = 'blog/blog.html'
     context_object_name = 'blog_list'
-    paginate_by = 2
+    paginate_by = 1
 
     def get_queryset(self):
         queries = Blog.objects.filter(is_published=True).order_by('-date_add')[:4]

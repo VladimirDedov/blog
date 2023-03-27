@@ -56,17 +56,25 @@
                 </div>
                 <div class="blog-pagination">
                     <ul class="pagination">
-                        {% for p in paginator.page_range %}
-                        {% if p.has_previous %}
-                        <li><a href="?page=1">Firrst</a></li>
+                        {% if page_obj.has_previous %}
+                            <li><a href="?page=1">First</a></li>
+                            <li><a href="?page={{page_obj.previous_page_number}}">Назад</a></li>
+                        {% else%}
+                            <li><a href="?page=1">1</a></li>
                         {% endif %}
-                        <li><a href="?page={{p}}">{{p}}</a></li>
-                        {% endfor %}
-                        <li><a href="#">123</a></li>
-                        <li><a href="#">123</a></li>
-                        <li class="active"><a href="#">123</a></li>
+                        {% for p in paginator.page_range %}
 
-                        <li><a href="#">right</a></li>
+                            {% if page_obj.number == p %}
+                                <li class="active"><a  href="?page={{p}}">{{p}}</a></li>
+                            {% else %}
+                                <li><a href="?page={{p}}">{{p}}</a></li>
+                            {% endif%}
+
+                        {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li><a href="?page={{page_obj.next_page_number}}">Вперёд</a></li>
+                            {% endif %}
+                        <li><a href="?page={{page_obj.paginator.num_pages}}">Last</a></li>
                     </ul>
                 </div>
             </div>
