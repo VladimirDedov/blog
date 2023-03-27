@@ -9,13 +9,14 @@ from django.contrib.auth import logout
 
 
 class Index(DataMixin, ListView):
+    """main page"""
     model = Blog
     template_name = 'blog/index.html'
     context_object_name = 'blog'
 
     def get_queryset(self):
-        count = Blog.objects.all().last()
-        return count
+        return Blog.objects.all().last()
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
