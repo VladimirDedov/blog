@@ -37,10 +37,10 @@
                 <div class="social-icons pull-right">
                     <ul class="nav nav-pills">
                         {% if not request.user.is_authenticated %}
-                            <li><a href="{% url 'login' %}">Войти</li>
+                        <li><a href="{% url 'login' %}">Войти</li>
                         {%else%}
-                            <li>Вы вошли как {{user.username}}</li>
-                            <li><a href="{% url 'log_out' %}">Выйти</li>
+                        <li>Вы вошли как {{user.username}}</li>
+                        <li><a href="{% url 'log_out' %}">Выйти</li>
                         {%endif%}
                     </ul>
                 </div>
@@ -66,13 +66,13 @@
                 <ul class="nav navbar-nav navbar-right">
                     {% for m in menu %}
                     {% if flag == m.url_name %}
-                        {% if m.url_name == 'resume' %}
-                        <li class="active"><a href="http://dvv-res.ru" target="_blank">{{m.title}}</a></li>
-                        {%else%}
-                        <li class="active"><a href="{% url m.url_name %}">{{m.title}}</a></li>
-                        {% endif%}
-                        {% else %}
-                        <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% if m.url_name == 'resume' %}
+                    <li class="active"><a href="http://dvv-res.ru" target="_blank">{{m.title}}</a></li>
+                    {%else%}
+                    <li class="active"><a href="{% url m.url_name %}">{{m.title}}</a></li>
+                    {% endif%}
+                    {% else %}
+                    <li><a href="{% url m.url_name %}">{{m.title}}</a></li>
                     {% endif %}
                     {% endfor %}
                     <!--                    <li><a href="https://dvv-res.ru" target="_blank">Резюме</a></li>-->
@@ -92,6 +92,31 @@
 </header>
 
 {% block content %}
+{% endblock %}
+{% if page_obj.has_other_pages %}
+<div class="blog-pagination">
+    <ul class="pagination">
+        {% if page_obj.has_previous %}
+        <li><a href="?page=1">First</a></li>
+        <li><a href="?page={{page_obj.previous_page_number}}">Назад</a></li>
+        {% else%}
+        <li><a href="?page=1">1</a></li>
+        {% endif %}
+        {% for p in paginator.page_range %}
+        {% if page_obj.number == p %}
+        <li class="active"><a href="?page={{p}}">{{p}}</a></li>
+        {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+        <li><a href="?page={{p}}">{{p}}</a></li>
+        {% endif%}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <li><a href="?page={{page_obj.next_page_number}}">Вперёд</a></li>
+        {% endif %}
+        <li><a href="?page={{page_obj.paginator.num_pages}}">Last</a></li>
+    </ul>
+</div>
+{% endif %}
+{% block content_down %}
 {% endblock %}
 
 {% include 'include/footer.html' %}

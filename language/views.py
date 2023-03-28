@@ -83,6 +83,7 @@ class Distionary(DataMixin, ListView):
     model = Distionary
     template_name = 'blog/distionary.html'
     context_object_name = 'words'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,0 +1,25 @@
+<div class="response-area">
+    <h2 class="bold">Комментарии</h2>
+    <ul class="media-list">
+        <li class="media">
+            {% if comments %}
+            {% for comment in comments %}
+            <div class="post-comment">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="images/blogdetails/4.png" alt="">
+                </a>
+                <div class="media-body">
+                    <span><i class="fa fa-user"></i>Posted by <a href="#">{{comment.name_user}}</a></span>
+                    <p>{{comment.content}}</p>
+                </div>
+            </div>
+            {% endfor %}
+            {% else%}
+            <div class="media-body">
+                <span>Комментарии пока отсутствуют. Будьте первым!
+            </div>
+            {% endif%}
+        </li>
+
+    </ul>
+</div>
