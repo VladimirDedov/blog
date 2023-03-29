@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, CreateView, ListView
+from django.views.generic import View, DetailView, CreateView, ListView
 from .models import *
 from .utils import *
-from .forms import AddWordForm, AddPostForm, BlogLoginForm
+from .forms import AddWordForm, AddPostForm, BlogLoginForm, AddCommentForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import logout
 
@@ -16,7 +16,6 @@ class Index(DataMixin, ListView):
 
     def get_queryset(self):
         return Blog.objects.all().last()
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -109,7 +108,7 @@ class DetailWord(DataMixin, DetailView):
         return context
 
 
-class AddWord(DataMixin,CreateView):
+class AddWord(DataMixin, CreateView):
     """Add word in distionary"""
     form_class = AddWordForm
     template_name = 'blog/add_word.html'
@@ -120,7 +119,6 @@ class AddWord(DataMixin,CreateView):
         c_def = self.get_user_context(title='Добавить слово', flag='add_word')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
-
 
 
 class AddPost(DataMixin, CreateView):
@@ -134,6 +132,23 @@ class AddPost(DataMixin, CreateView):
         c_def = self.get_user_context(title='Добавить пост', flag='add_post')
         context = dict(list(context.items()) + list(c_def.items()))
         return context
+
+
+class AddComment(View):
+    """added comment to bd"""
+
+    def post(self, request, pk):
+        print(request.POST, pk)
+        form = AddCommentForm(request.POST)
+        blog = Blog.objects.get(id=pk)
+
+        if form.is_valid():
+            form = form.save(commit=False)
+            form.blog = blog
+            form.save()
+        else:
+            print('валидация не пройдена')
+        return redirect(blog.get_absolute_url())
 
 
 class BlogLoginView(LoginView):

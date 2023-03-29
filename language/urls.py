@@ -15,6 +15,7 @@ urlpatterns = [
     path('add_word/', AddWord.as_view(), name='add_word'),
     path('add_post/', AddPost.as_view(), name='add_post'),
     path('category/<slug:slug_category>/', ShowCategory.as_view(), name='category'),
+    path('comments/<int:pk>/', AddComment.as_view(), name='add_comment'),
     path('login/', BlogLoginView.as_view(), name='login'),
     path('logout/', logout_user, name='log_out'),
 ]

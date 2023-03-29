@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 
 
 class AddWordForm(forms.ModelForm):
+    """form of added word"""
     class Meta:
         model = Distionary
         fields = ['word_eng', 'slug', 'word_rus',
@@ -28,7 +29,7 @@ class AddWordForm(forms.ModelForm):
 
 
 class AddPostForm(forms.ModelForm):
-
+    """form of added post """
     #date_add = forms.DateField(label="Дата создания", widget=forms.SelectDateWidget)
     field_order = ['title','slug', 'content','date_add', 'category', 'image_1', 'image_2', 'image_3']
     content = forms.CharField(widget=CKEditorWidget(attrs={'class': "form-control"}), label='Содержание' )
@@ -47,4 +48,8 @@ class BlogLoginForm(AuthenticationForm):
     field_order = ['username', 'password']
 
 
-
+class AddCommentForm(forms.ModelForm):
+    """form for commtnts"""
+    class Meta:
+        model = Comments
+        fields = ('name_user', 'content')

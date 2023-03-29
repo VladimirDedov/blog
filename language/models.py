@@ -69,7 +69,7 @@ class Blog(models.Model):
 class Comments(models.Model):
     """model for comments of user"""
     name_user = models.CharField(max_length=255, verbose_name='Имя пользователя')
-    content = models.TextField(verbose_name='Комментария')
+    content = models.TextField(verbose_name='Комментарий')
     blog = models.ForeignKey('Blog', on_delete=models.PROTECT, verbose_name='Блог')
 
     class Meta:
@@ -77,5 +77,5 @@ class Comments(models.Model):
         verbose_name_plural = 'Комментарии'
 
 class Testimonial(models.Model):
-    """model of smart frase"""
+    """model of funny frases"""
     testimonial = models.TextField(verbose_name='Интересные двустроки')
