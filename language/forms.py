@@ -49,7 +49,7 @@ class BlogLoginForm(AuthenticationForm):
 
 
 class AddCommentForm(forms.ModelForm):
-    """form for commtnts"""
+    """form for comments"""
     class Meta:
         model = Comments
         fields = ('name_user', 'content')

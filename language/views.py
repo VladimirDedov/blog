@@ -77,12 +77,12 @@ class ShowCategory(DataMixin, ListView):
         return context
 
 
-class Distionary(DataMixin, ListView):
+class DictionaryList(DataMixin, ListView):
     """distyonary of english worlds"""
     model = Distionary
     template_name = 'blog/distionary.html'
     context_object_name = 'words'
-    paginate_by = 5
+    paginate_by = 30
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -99,7 +99,7 @@ class DetailWord(DataMixin, DetailView):
     context_object_name = 'detail_word'
 
     def get_queryset(self):
-        return Distionary.objects.filter(slug=self.kwargs['word_slug']).order_by('word_eng')
+        return Distionary.objects.filter(slug=self.kwargs['word_slug'])#order_by('word_eng')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
