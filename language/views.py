@@ -168,8 +168,8 @@ class BlogLoginView(LoginView):
 
 def about(request):
     """About me page"""
-    context = {'menu': main_menu, 'flag': 'about'}
-    return render(request, 'blog/about.html', context=context)
+
+    return redirect('resume')
 
 
 def contact(request):
