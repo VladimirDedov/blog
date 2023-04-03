@@ -122,12 +122,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # STATIC_URL = 'static/'
 # STATIC_DIR = os.path.join(BASE_DIR, 'static/')
 STATIC_URL = 'static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_DIR = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = [  # сПИСОК ИЗ каких дерикторий собирать статику
     STATIC_DIR,
 ]
-#STATIC_ROOT=os.path.join(BASE_DIR, 'static/')#Закоментить static_dir(dirs)  и раскоментить эту строку для CKEDITORA
-MEDIA_URL = '/media/'  # Указывает куда загружать медиафайлы
+# STATIC_ROOT=os.path.join(BASE_DIR, 'static/')#Закоментить static_dir(dirs)  и раскоментить эту строку для CKEDITORA
+MEDIA_URL = 'media/'  # Указывает куда загружать медиафайлы
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Указываем директорию для пути
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
@@ -180,7 +181,7 @@ CKEDITOR_CONFIGS = {
         # 'mathJaxLib': '//cdn.mathjax.org/mathjax/2.2-latest/MathJax.js?config=TeX-AMS_HTML',
         'tabSpaces': 4,
         'extraPlugins': ','.join([
-            'uploadimage', # the upload image feature
+            'uploadimage',  # the upload image feature
             # your extra plugins here
             'div',
             'autolink',
