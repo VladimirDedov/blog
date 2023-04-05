@@ -36,39 +36,43 @@
         <div class="row">
             <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="300ms">
                 <div class="single-service">
-                    <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="300ms">
-                        <img src="{% static 'images/home/icon1.png' %}" alt="">
-                    </div>
+                    <a href="{% url 'blog'%}">
+                        <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="300ms">
+                            <img src="{% static 'images/home/blog.png' %}" alt="">
+                        </div>
 
-                    <h2><a href="{% url 'blog'%}"> Открыть блог</a></h2>
-                    <p>Блог - это место, где публикуются статьи, такие как: Поход на рыбалку, разработка чего - либо на Python...</p>
-<!--                    {% autoescape off %}-->
-<!--                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>-->
-<!--                    {% endautoescape %}-->
+                        <h2> Открыть блог</h2></a>
+                    <p>Блог - это место, где публикуются статьи, такие как: Поход на рыбалку, разработка чего - либо на
+                        Python...</p>
+                    <!--                    {% autoescape off %}-->
+                    <!--                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>-->
+                    <!--                    {% endautoescape %}-->
                 </div>
             </div>
             <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="600ms">
                 <div class="single-service">
-                    <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="600ms">
-                        <img src="{% static 'images/home/icon2.png' %}" alt="">
-                    </div>
-                    <h2><a href="{% url 'distionary'%}"> Открыть словарь</a></h2>
+                    <a href="{% url 'distionary'%}">
+                        <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="600ms">
+                            <img src="{% static 'images/home/dict.png' %}" alt="">
+                        </div>
+                        <h2> Открыть словарь</h2></a>
                     <p>Словарь - это место, где добавляются слова, которые нужно знать. Приводятся примеры к ним...</p>
-<!--                    {% autoescape off %}-->
-<!--                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>-->
-<!--                    {% endautoescape %}-->
+                    <!--                    {% autoescape off %}-->
+                    <!--                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>-->
+                    <!--                    {% endautoescape %}-->
                 </div>
             </div>
             <div class="col-sm-4 text-center padding wow fadeIn" data-wow-duration="1000ms" data-wow-delay="900ms">
                 <div class="single-service">
-                    <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="900ms">
-                        <img src="{% static 'images/home/icon3.png' %}" alt="">
-                    </div>
-                    <h2><a href="https://dvv.pythonanywhere.com"> Почитать про меня</a></h2>
-                   <p>Перейти на мой сайт - резюме. Дана более подробная информация про меня, опыт работы и т.д...</p>
-<!--                    {% autoescape off %}-->
-<!--                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>-->
-<!--                    {% endautoescape %}-->
+                    <a href="https://dvv.pythonanywhere.com">
+                        <div class="wow scaleIn" data-wow-duration="500ms" data-wow-delay="900ms">
+                            <img src="{% static 'images/home/resume.png' %}" alt="">
+                        </div>
+                        <h2> Почитать про меня</h2></a>
+                    <p>Перейти на мой сайт - резюме. Дана более подробная информация про меня, опыт работы и т.д...</p>
+                    <!--                    {% autoescape off %}-->
+                    <!--                    <p>{{blog.content|linebreaks|truncatewords:25}}</p>-->
+                    <!--                    {% endautoescape %}-->
                 </div>
             </div>
         </div>
