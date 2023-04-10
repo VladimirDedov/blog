@@ -6,6 +6,9 @@ from .utils import *
 from .forms import AddWordForm, AddPostForm, BlogLoginForm, AddCommentForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import logout
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import *
 
 
 class Index(DataMixin, ListView):
@@ -32,7 +35,7 @@ class ShowBlog(DataMixin, ListView):
     paginate_by = 1
 
     def get_queryset(self):
-        queries = Blog.objects.filter(is_published=True).order_by('-date_add')[:4]
+        queries = Blog.objects.filter(is_published=True).order_by('-date_add')
         return queries
 
     def get_context_data(self, **kwargs):
@@ -99,7 +102,7 @@ class DetailWord(DataMixin, DetailView):
     context_object_name = 'detail_word'
 
     def get_queryset(self):
-        return Distionary.objects.filter(slug=self.kwargs['word_slug'])#order_by('word_eng')
+        return Distionary.objects.filter(slug=self.kwargs['word_slug'])  # order_by('word_eng')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -184,3 +187,48 @@ def resume(reauest):
 def logout_user(request):
     logout(request)
     return redirect('index')
+
+
+"""Serializers blog below"""
+
+
+class BlogListView(APIView):
+    """list of blog"""
+
+    def get(self, request):
+        blog = Blog.objects.filter(is_published=True)
+        serialiser = BlogListSerialiser(blog, many=True)
+        return Response(serialiser.data)
+
+
+class BlogListView(APIView):
+    """list of blog"""
+
+    def get(self, request):
+        blog = Blog.objects.filter(is_published=True)
+        serialiser = BlogListSerialiser(blog, many=True)
+        return Response(serialiser.data)
+
+
+class BlogDetailView(APIView):
+    """list of blog"""
+
+    def get(self, request, slug):
+        article = Blog.objects.get(slug=slug, is_published=True)
+        serialiser = BlogDetailSerialiser(article)
+        return Response(serialiser.data)
+
+
+class DictListView(APIView):
+    """List of words"""
+    def get(self, request):
+        words = Distionary.objects.all()
+        serializer = DictListSerializer(words, many=True)
+        return Response(serializer.data)
+
+class DetailWordView(APIView):
+    """Detail word"""
+    def get(self, request, slug):
+        word = Distionary.objects.get(slug=slug)
+        serializer= WordDetailSerializer(word)
+        return Response(serializer.data)

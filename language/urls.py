@@ -3,6 +3,13 @@ from .views import *
 from django.conf import settings
 from django.conf.urls.static import static
 
+serializers_path = [
+    path('api/v1/blog/', BlogListView.as_view()),
+    path('api/v1/blog/<slug:slug>/', BlogDetailView.as_view()),
+    path('api/v1/dictionary/', DictListView.as_view()),
+    path('api/v1/dictionary/<slug:slug>/', DetailWordView.as_view()),
+]
+
 urlpatterns = [
     path('', Index.as_view(), name='index'),
     path('blog/', ShowBlog.as_view(), name='blog'),
@@ -18,7 +25,7 @@ urlpatterns = [
     path('comments/<int:pk>/', AddComment.as_view(), name='add_comment'),
     path('login/', BlogLoginView.as_view(), name='login'),
     path('logout/', logout_user, name='log_out'),
-]
+] + serializers_path
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
