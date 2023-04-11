@@ -3,7 +3,7 @@ main_menu = [
     {'title': 'Резюме', 'url_name': 'resume'},
     {'title': 'Блог', 'url_name': 'blog'},
     {'title': 'Словарь', 'url_name': 'distionary'},
-    {'title': 'Обо мне', 'url_name': 'about'},
+    {'title': 'API', 'url_name': 'api'},
     {'title': 'Контакты', 'url_name': 'contact'},
     {'title': 'Слово', 'url_name': 'add_word'},
     {'title': 'Добавить пост', 'url_name': 'add_post'}

@@ -169,10 +169,9 @@ class BlogLoginView(LoginView):
         return context
 
 
-def about(request):
-    """About me page"""
-
-    return redirect('resume')
+def api(request):
+    context = {'menu': main_menu, 'flag': 'api'}
+    return render(request, 'blog/about.html', context=context)
 
 
 def contact(request):
@@ -221,14 +220,17 @@ class BlogDetailView(APIView):
 
 class DictListView(APIView):
     """List of words"""
+
     def get(self, request):
         words = Distionary.objects.all()
         serializer = DictListSerializer(words, many=True)
         return Response(serializer.data)
 
+
 class DetailWordView(APIView):
     """Detail word"""
+
     def get(self, request, slug):
         word = Distionary.objects.get(slug=slug)
-        serializer= WordDetailSerializer(word)
+        serializer = WordDetailSerializer(word)
         return Response(serializer.data)
